@@ -1,0 +1,34 @@
+{
+  "name": "painel-sos",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "bootstrap:db": "node bootstrap-directus.mjs",
+    "bootstrap:rbac": "node bootstrap-rbac.mjs",
+    "seed": "node seed-directus.mjs"
+  },
+  "dependencies": {
+    "@directus/sdk": "^17.0.2",
+    "leaflet": "^1.9.4",
+    "next": "^14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.12",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
+    "postcss": "^8.4.39",
+    "react-leaflet": "^4.2.1",
+    "tailwindcss": "^3.4.6",
+    "typescript": "^5.5.3"
+  }
+}
