@@ -16,13 +16,7 @@
  * Requer Node 18+ (usa fetch nativo).
  */
 
-const URL = (process.env.DIRECTUS_URL || 'http://192.168.0.118:8056').replace(/\/+$/, '');
-const TOKEN = process.env.DIRECTUS_TOKEN || 'csz_fZjTCHKwDaDo_95lZ03-ad_AvXZY';
-
-if (!URL || !TOKEN) {
-  console.error('ERRO: defina DIRECTUS_URL e DIRECTUS_TOKEN no ambiente.');
-  process.exit(1);
-}
+import { URL, TOKEN } from './env.mjs';
 
 // ---------------------------------------------------------------------------
 // Helper de requisição

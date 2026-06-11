@@ -5,6 +5,17 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/lib/session";
 // Considera autenticada a sessão que tenha access OU refresh token
 // (o refresh é renovado sob demanda pela aplicação).
 export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  // Endpoints do app da viatura autenticam por token próprio (não por cookie de
+  // sessão): login (identificador+token) e ingestão de posição (Bearer).
+  if (
+    pathname === "/api/viaturas/login" ||
+    /^\/api\/viaturas\/[^/]+\/ping$/.test(pathname)
+  ) {
+    return NextResponse.next();
+  }
+
   const hasSession =
     req.cookies.has(ACCESS_COOKIE) || req.cookies.has(REFRESH_COOKIE);
 

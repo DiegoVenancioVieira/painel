@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { directusFetch, directusJson, NaoAutenticado } from "@/lib/server-api";
-import type { Alerta, Guardiao, LocalizacaoAlerta } from "@/types/schema";
+import type {
+  Alerta,
+  Despacho,
+  Guardiao,
+  LocalizacaoAlerta,
+} from "@/types/schema";
 
 // GET /api/alertas/[id]
 // Retorna o alerta + usuária + guardiões da usuária + rastro de localização.
@@ -43,7 +48,19 @@ export async function GET(
       `/items/localizacoes_alerta?${locQs.toString()}`,
     );
 
-    return NextResponse.json({ alerta, guardioes, localizacoes });
+    // Despachos do alerta (viatura expandida)
+    const dQs = new URLSearchParams();
+    dQs.set("filter[alerta_id][_eq]", params.id);
+    dQs.set("sort", "-data_designacao");
+    dQs.set(
+      "fields",
+      "id,status,observacao,data_designacao,data_chegada,viatura_id.id,viatura_id.identificador,viatura_id.tipo,viatura_id.telefone_contato",
+    );
+    const despachos = await directusJson<Despacho[]>(
+      `/items/despachos?${dQs.toString()}`,
+    );
+
+    return NextResponse.json({ alerta, guardioes, localizacoes, despachos });
   } catch (e) {
     if (e instanceof NaoAutenticado) {
       return NextResponse.json({ error: "Não autenticado." }, { status: 401 });

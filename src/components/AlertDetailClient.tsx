@@ -4,11 +4,17 @@ import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { Alerta, Guardiao, LocalizacaoAlerta } from "@/types/schema";
+import type {
+  Alerta,
+  Despacho,
+  Guardiao,
+  LocalizacaoAlerta,
+} from "@/types/schema";
 import { StatusBadge } from "./StatusBadge";
 import { AudioPlayer } from "./AudioPlayer";
 import { GuardiansList } from "./GuardiansList";
 import { ResolveButton } from "./ResolveButton";
+import { DispatchPanel } from "./DispatchPanel";
 import {
   formatarDataHora,
   nomeUsuaria,
@@ -29,6 +35,7 @@ interface Dados {
   alerta: Alerta;
   guardioes: Guardiao[];
   localizacoes: LocalizacaoAlerta[];
+  despachos: Despacho[];
 }
 
 export function AlertDetailClient({ id }: { id: string }) {
@@ -158,6 +165,12 @@ export function AlertDetailClient({ id }: { id: string }) {
             <h2 className="mb-2 text-sm font-semibold text-slate-700">Guardiões</h2>
             <GuardiansList guardioes={guardioes} />
           </section>
+
+          <DispatchPanel
+            alertaId={alerta.id}
+            despachos={dados.despachos}
+            onChange={buscar}
+          />
 
           <section className="rounded-xl border border-slate-200 bg-white p-4 text-sm">
             <h2 className="mb-2 text-sm font-semibold text-slate-700">Detalhes</h2>

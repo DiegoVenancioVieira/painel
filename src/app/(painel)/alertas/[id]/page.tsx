@@ -7,5 +7,9 @@ export default function AlertaDetalhePage({
 }: {
   params: { id: string };
 }) {
-  return <AlertDetailClient id={params.id} />;
+  return (
+    <div className="mx-auto w-full max-w-6xl px-4 py-6">
+      <AlertDetailClient id={params.id} />
+    </div>
+  );
 }

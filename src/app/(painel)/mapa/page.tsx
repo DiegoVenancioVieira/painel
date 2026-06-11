@@ -1,7 +1,6 @@
-import { MapaGeralClient } from "@/components/MapaGeralClient";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
+// O mapa agora é a tela inicial. Mantemos /mapa como atalho que redireciona.
 export default function MapaPage() {
-  return <MapaGeralClient />;
+  redirect("/");
 }

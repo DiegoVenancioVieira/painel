@@ -9,7 +9,11 @@
     "lint": "next lint",
     "bootstrap:db": "node bootstrap-directus.mjs",
     "bootstrap:rbac": "node bootstrap-rbac.mjs",
-    "seed": "node seed-directus.mjs"
+    "bootstrap:viaturas": "node bootstrap-viaturas.mjs",
+    "bootstrap:despachos": "node bootstrap-despachos.mjs",
+    "seed": "node seed-directus.mjs",
+    "seed:viaturas": "node seed-viaturas.mjs",
+    "simulate:viaturas": "node simulate-viaturas.mjs"
   },
   "dependencies": {
     "@directus/sdk": "^17.0.2",

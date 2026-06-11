@@ -16,10 +16,7 @@ export function Header({ showSession = true }: { showSession?: boolean }) {
         </Link>
         <nav className="flex items-center gap-4 text-sm">
           <Link href="/" className="text-slate-600 hover:text-slate-900">
-            Alertas
-          </Link>
-          <Link href="/mapa" className="text-slate-600 hover:text-slate-900">
-            Mapa
+            Início
           </Link>
           {showSession && (
             <>
