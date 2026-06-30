@@ -36,8 +36,8 @@ function headingGraus(dLat, dLng) {
 async function tick() {
   const viaturas = await api('GET', '/items/viaturas?filter[ativa][_eq]=true&fields=id,identificador,ultima_lat,ultima_lng&limit=-1');
   for (const v of viaturas) {
-    const baseLat = v.ultima_lat ?? -23.561;
-    const baseLng = v.ultima_lng ?? -46.656;
+    const baseLat = v.ultima_lat ?? -10.9472; // centro de Aracaju/SE
+    const baseLng = v.ultima_lng ?? -37.0731;
     // passo aleatório (~30-60m)
     const dLat = (Math.random() - 0.5) * 0.0008;
     const dLng = (Math.random() - 0.5) * 0.0008;

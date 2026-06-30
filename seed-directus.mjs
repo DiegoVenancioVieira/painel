@@ -50,7 +50,7 @@ async function main() {
   // Alerta ativo com rastro
   const ativos = await api('GET', `/items/alertas?filter[usuaria_id][_eq]=${usuaria.id}&filter[status][_eq]=ativo&limit=1`);
   if (!ativos?.length) {
-    const baseLat = -23.5615, baseLng = -46.6562; // Av. Paulista, SP
+    const baseLat = -10.9095, baseLng = -37.0560; // Centro de Aracaju/SE (Praça Fausto Cardoso)
     const alerta = await api('POST', '/items/alertas', {
       usuaria_id: usuaria.id, status: 'ativo',
       latitude_inicial: baseLat, longitude_inicial: baseLng,
@@ -74,7 +74,7 @@ async function main() {
   if (!resolvidos?.length) {
     await api('POST', '/items/alertas', {
       usuaria_id: usuaria.id, status: 'resolvido',
-      latitude_inicial: -23.55, longitude_inicial: -46.63,
+      latitude_inicial: -10.9430, longitude_inicial: -37.0640, // Grageru, Aracaju/SE
       sincronizado_offline: true,
     });
     console.log('✓ alerta resolvido (histórico) criado');

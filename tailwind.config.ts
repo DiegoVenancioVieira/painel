@@ -47,9 +47,15 @@ const config: Config = {
           "70%": { boxShadow: "0 0 0 10px rgba(220,38,38,0)" },
           "100%": { boxShadow: "0 0 0 0 rgba(220,38,38,0)" },
         },
+        // Tela inteira piscando em vermelho durante um alerta ativo.
+        screenFlash: {
+          "0%, 100%": { backgroundColor: "rgba(220,38,38,0)" },
+          "50%": { backgroundColor: "rgba(220,38,38,0.5)" },
+        },
       },
       animation: {
         pulseRing: "pulseRing 1.8s infinite",
+        screenFlash: "screenFlash 1.1s ease-in-out infinite",
       },
     },
   },

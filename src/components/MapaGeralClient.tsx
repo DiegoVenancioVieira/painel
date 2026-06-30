@@ -98,7 +98,7 @@ export function MapaGeralClient({
             onClick={() => setMostrarViaturas((v) => !v)}
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 ring-1 ring-inset transition ${
               mostrarViaturas
-                ? "bg-blue-50 text-blue-700 ring-blue-200"
+                ? "bg-aju-50 text-aju-700 ring-aju-200"
                 : "bg-slate-100 text-slate-400 ring-slate-200 line-through"
             }`}
             aria-pressed={mostrarViaturas}

@@ -54,7 +54,7 @@ export default function AlertMap({ inicial, rastro }: Props) {
   if (inicial) todos.unshift([inicial.lat, inicial.lng]);
 
   const ultima = rastro.length > 0 ? rastro[rastro.length - 1] : null;
-  const centro: [number, number] = todos[0] ?? [-15.78, -47.93]; // fallback: Brasília
+  const centro: [number, number] = todos[0] ?? [-10.9472, -37.0731]; // fallback: centro de Aracaju/SE
 
   return (
     <MapContainer center={centro} zoom={15} className="h-full w-full">

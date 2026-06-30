@@ -82,7 +82,7 @@ export default function MapaGeral({ alertas, viaturas = [] }: Props) {
     pontosBounds[0] ??
     (viaturasGeo[0]
       ? [viaturasGeo[0].ultima_lat as number, viaturasGeo[0].ultima_lng as number]
-      : [-23.55, -46.63]);
+      : [-10.9472, -37.0731]); // fallback: centro de Aracaju/SE
 
   return (
     <MapContainer center={centro} zoom={13} className="h-full w-full">

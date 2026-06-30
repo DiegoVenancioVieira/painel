@@ -178,7 +178,7 @@ export function DispatchPanel({ alertaId, despachos, onChange }: Props) {
                 <button
                   onClick={() => designar(v.id)}
                   disabled={designada || enviando === v.id}
-                  className="shrink-0 rounded-md bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
+                  className="shrink-0 rounded-md bg-aju-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-aju-700 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
                 >
                   {designada ? "Designada" : enviando === v.id ? "…" : "Designar"}
                 </button>

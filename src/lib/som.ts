@@ -23,33 +23,56 @@ export function setSomVolume(v: number) {
   if (typeof window !== "undefined") localStorage.setItem(KEY_VOL, String(v));
 }
 
-let ctx: AudioContext | null = null;
+// Áudio do alarme (arquivo em /public/alarme.mp3).
+let audio: HTMLAudioElement | null = null;
 
+function getAudio(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  if (!audio) {
+    audio = new Audio("/alarme.mp3");
+    audio.preload = "auto";
+  }
+  return audio;
+}
+
+/** Toca o alarme uma vez (prévia ao ligar o som ou ajustar o volume). */
 export function tocarAlerta() {
-  if (typeof window === "undefined" || !somAtivo()) return;
+  if (!somAtivo()) return;
+  const a = getAudio();
+  if (!a) return;
   try {
-    ctx =
-      ctx ??
-      new (window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext)();
-    const vol = somVolume();
-    // Dois bips curtos ascendentes.
-    const agora = ctx.currentTime;
-    [880, 1175].forEach((freq, i) => {
-      const osc = ctx!.createOscillator();
-      const gain = ctx!.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      const t0 = agora + i * 0.22;
-      gain.gain.setValueAtTime(0, t0);
-      gain.gain.linearRampToValueAtTime(vol, t0 + 0.02);
-      gain.gain.linearRampToValueAtTime(0, t0 + 0.18);
-      osc.connect(gain).connect(ctx!.destination);
-      osc.start(t0);
-      osc.stop(t0 + 0.2);
-    });
+    a.loop = false;
+    a.volume = somVolume();
+    a.currentTime = 0;
+    void a.play().catch(() => {});
   } catch {
     // navegador pode bloquear áudio sem interação — ignora
+  }
+}
+
+/** Inicia o alarme em loop (novo alerta ativo) até ser reconhecido. */
+export function iniciarAlarme() {
+  if (!somAtivo()) return;
+  const a = getAudio();
+  if (!a) return;
+  try {
+    a.loop = true;
+    a.volume = somVolume();
+    a.currentTime = 0;
+    void a.play().catch(() => {});
+  } catch {
+    // ignora bloqueio de autoplay
+  }
+}
+
+/** Para o alarme em loop. */
+export function pararAlarme() {
+  if (!audio) return;
+  audio.loop = false;
+  audio.pause();
+  try {
+    audio.currentTime = 0;
+  } catch {
+    /* noop */
   }
 }

@@ -24,10 +24,11 @@ async function api(method, path, body) {
   return json?.data;
 }
 
+// Coordenadas em bairros de Aracaju/SE.
 const VIATURAS = [
-  { identificador: 'VTR-12', tipo: 'PM', placa: 'ABC1D23', lat: -23.5614, lng: -46.6560 },
-  { identificador: 'GCM-07', tipo: 'GCM', placa: 'EFG4H56', lat: -23.5540, lng: -46.6390 },
-  { identificador: 'VTR-31', tipo: 'PM', placa: 'IJK7L89', lat: -23.5680, lng: -46.6480 },
+  { identificador: 'VTR-12', tipo: 'PM', placa: 'ABC1D23', lat: -10.9110, lng: -37.0530 }, // Centro
+  { identificador: 'GCM-07', tipo: 'GCM', placa: 'EFG4H56', lat: -10.9880, lng: -37.0490 }, // Atalaia
+  { identificador: 'VTR-31', tipo: 'PM', placa: 'IJK7L89', lat: -10.9430, lng: -37.0640 }, // Grageru
 ];
 
 async function main() {
