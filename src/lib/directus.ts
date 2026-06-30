@@ -15,8 +15,12 @@ import {
 } from "@directus/sdk";
 import type { DirectusSchema } from "@/types/schema";
 
+// Server-side only. Prefere DIRECTUS_URL (não vaza no bundle do client);
+// mantém NEXT_PUBLIC_DIRECTUS_URL por compatibilidade.
 export const DIRECTUS_URL =
-  process.env.NEXT_PUBLIC_DIRECTUS_URL ?? "http://192.168.0.118:8056";
+  process.env.DIRECTUS_URL ??
+  process.env.NEXT_PUBLIC_DIRECTUS_URL ??
+  "http://192.168.0.118:8056";
 
 type AdminClient = DirectusClient<DirectusSchema> & RestClient<DirectusSchema>;
 type SessionClient = DirectusClient<DirectusSchema> &

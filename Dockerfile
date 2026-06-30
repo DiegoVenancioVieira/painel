@@ -1,0 +1,35 @@
+# syntax=docker/dockerfile:1
+
+# ---------- deps ----------
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# ---------- builder ----------
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+# .env.local não vem para a imagem (ver .dockerignore); as variáveis são
+# injetadas pelo Coolify em runtime. O build não precisa dos segredos.
+RUN npm run build
+
+# ---------- runner ----------
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+
+RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
+
+# Saída standalone do Next: servidor + node_modules mínimos.
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+# public é opcional (hoje vazio); copie se existir.
+COPY --from=builder /app/public ./public
+
+USER nextjs
+EXPOSE 3000
+CMD ["node", "server.js"]
