@@ -8,6 +8,8 @@ export interface Usuaria {
   telefone: string;
   validada: boolean;
   data_criacao: string;
+  /** Secreto — só usado server-side no app da usuária; nunca retornado ao client. */
+  token?: string | null;
 }
 
 export interface Guardiao {

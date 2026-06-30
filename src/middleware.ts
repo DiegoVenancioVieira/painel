@@ -7,11 +7,12 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/lib/session";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Endpoints do app da viatura autenticam por token próprio (não por cookie de
-  // sessão): login (identificador+token) e ingestão de posição (Bearer).
+  // Endpoints dos apps móveis autenticam por token próprio (não por cookie de
+  // sessão): viatura (login/ping) e app da usuária (/api/app/*).
   if (
     pathname === "/api/viaturas/login" ||
-    /^\/api\/viaturas\/[^/]+\/ping$/.test(pathname)
+    /^\/api\/viaturas\/[^/]+\/ping$/.test(pathname) ||
+    pathname.startsWith("/api/app/")
   ) {
     return NextResponse.next();
   }
