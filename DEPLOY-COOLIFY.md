@@ -68,15 +68,35 @@ Não há outra lógica sensível a esquema.
    - login da operadora (`operadora@painel-sos.com`) funciona (valida cookie/HTTPS);
    - dashboard e mapa carregam (proxy → Directus ok).
 
-## 6. Ajustes nos apps Flutter (mulher / viatura)
+## 6. Demos Flutter Web em /mulher e /viatura
 
-Para os apps mobile apontarem para o domínio:
+Os apps `mulher` e `viatura` são Flutter (mobile). Para **demonstração**, foram
+compilados como Flutter **Web** e embutidos no próprio painel:
 
-- `mulher/lib/services/storage.dart` e `viatura/lib/services/storage.dart`:
-  `defaultBaseUrl = 'https://sosmulher-sermulher.aracaju.se.gov.br'`.
-- Remover `android:usesCleartextTraffic="true"` (AndroidManifest) e
-  `NSAllowsArbitraryLoads` (Info.plist) — eram só para HTTP de dev.
-- Rebuild dos APKs (`flutter build apk --release`).
+- `public/mulher/`  → servido em `https://.../mulher`
+- `public/viatura/` → servido em `https://.../viatura`
+
+Como funciona no painel:
+- `next.config.mjs` faz *rewrite* de `/mulher` e `/viatura` para o respectivo
+  `index.html`; os assets são servidos direto de `/public`.
+- `src/middleware.ts` isenta essas rotas da proteção de sessão.
+- Build feito com `flutter build web --release --base-href /mulher/` (e
+  `/viatura/`); `defaultBaseUrl` já aponta para o domínio (API same-origin).
+
+Para **regerar** os demos após mudar os apps:
+
+```bash
+cd mulher  && flutter build web --release --base-href /mulher/
+cd ../viatura && flutter build web --release --base-href /viatura/
+# copie build/web → painel/public/mulher e painel/public/viatura
+```
+
+> ⚠️ **Limitações da demo web** (por isso é só demo): gravação de áudio e GPS em
+> segundo plano não funcionam de forma confiável no navegador; `path_provider`
+> não tem suporte web (o fluxo de áudio do pânico pode falhar em runtime). Para
+> uso real, distribua os **APKs** (Android) / build iOS — aí remova
+> `usesCleartextTraffic`/`NSAllowsArbitraryLoads` e rebuild com
+> `flutter build apk --release`.
 
 ## 7. Pendências de segurança antes de produção
 

@@ -31,6 +31,9 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Aplica a todas as rotas, exceto: login, api/auth, estáticos e favicon.
-  matcher: ["/((?!login|api/auth|_next/static|_next/image|favicon.ico|sounds).*)"],
+  // Aplica a todas as rotas, exceto: login, api/auth, estáticos, favicon e os
+  // demos Flutter Web servidos de /public (/mulher, /viatura).
+  matcher: [
+    "/((?!login|api/auth|_next/static|_next/image|favicon.ico|sounds|mulher|viatura).*)",
+  ],
 };
