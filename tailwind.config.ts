@@ -5,6 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Vermelho reservado para emergência (botão de pânico / alerta ativo).
         sos: {
           50: "#fef2f2",
           100: "#fee2e2",
@@ -12,6 +13,33 @@ const config: Config = {
           600: "#dc2626",
           700: "#b91c1c",
         },
+        // Identidade institucional Prefeitura de Aracaju (anel turquesa→verde→dourado).
+        aju: {
+          50: "#ecfdff",
+          100: "#cff7fc",
+          200: "#a5eef7",
+          300: "#67dfee",
+          400: "#22c7dd",
+          500: "#0aa9c2",
+          600: "#0c87a0",
+          700: "#116c81",
+          800: "#175869",
+          900: "#0b3a45",
+          ink: "#0b3a45",
+        },
+        gold: {
+          400: "#f6c945",
+          500: "#f4b400",
+          600: "#d99700",
+        },
+        grass: {
+          500: "#3da935",
+          600: "#2f8a2a",
+        },
+      },
+      backgroundImage: {
+        "aju-ring":
+          "linear-gradient(135deg, #0aa9c2 0%, #3da935 55%, #f4b400 100%)",
       },
       keyframes: {
         pulseRing: {

@@ -7,6 +7,20 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/lib/session";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Liberados da proteção de sessão:
+  //  - /login e /api/auth/* (fluxo de autenticação);
+  //  - demos Flutter Web servidos de /public (/mulher, /viatura);
+  //  - qualquer arquivo estático (caminho com extensão: .png, .ico, .js, sons…).
+  if (
+    pathname === "/login" ||
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/mulher") ||
+    pathname.startsWith("/viatura") ||
+    /\.[a-zA-Z0-9]+$/.test(pathname)
+  ) {
+    return NextResponse.next();
+  }
+
   // Endpoints dos apps móveis autenticam por token próprio (não por cookie de
   // sessão): viatura (login/ping) e app da usuária (/api/app/*).
   if (
@@ -31,9 +45,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Aplica a todas as rotas, exceto: login, api/auth, estáticos, favicon e os
-  // demos Flutter Web servidos de /public (/mulher, /viatura).
-  matcher: [
-    "/((?!login|api/auth|_next/static|_next/image|favicon.ico|sounds|mulher|viatura).*)",
-  ],
+  // Invoca o middleware em tudo, exceto os internos do Next. O allow-list acima
+  // cuida de login, auth, demos e estáticos.
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };
