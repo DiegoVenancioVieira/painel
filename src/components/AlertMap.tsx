@@ -10,7 +10,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { LocalizacaoAlerta } from "@/types/schema";
 import { formatarDataHora } from "@/lib/format";
 
@@ -37,8 +37,24 @@ interface Props {
 
 function AjustarBounds({ pontos }: { pontos: [number, number][] }) {
   const map = useMap();
+  // Enquadra automaticamente até o operador interagir (rolar o zoom ou
+  // arrastar). A partir daí, respeita a visão dele — evita o mapa voltar a
+  // reenquadrar a cada atualização do polling (o "auto-zoom" que atrapalhava).
+  const travado = useRef(false);
   useEffect(() => {
-    if (pontos.length === 0) return;
+    const travar = () => {
+      travado.current = true;
+    };
+    const container = map.getContainer();
+    container.addEventListener("wheel", travar, { passive: true });
+    map.on("dragstart", travar);
+    return () => {
+      container.removeEventListener("wheel", travar);
+      map.off("dragstart", travar);
+    };
+  }, [map]);
+  useEffect(() => {
+    if (travado.current || pontos.length === 0) return;
     if (pontos.length === 1) {
       map.setView(pontos[0], 16);
     } else {

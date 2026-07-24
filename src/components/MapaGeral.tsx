@@ -3,7 +3,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { Alerta, Viatura } from "@/types/schema";
 import { nomeUsuaria, tempoRelativo } from "@/lib/format";
@@ -57,8 +57,23 @@ interface Props {
 
 function Ajustar({ pontos }: { pontos: [number, number][] }) {
   const map = useMap();
+  // Enquadra automaticamente só até o operador interagir (scroll/arraste).
+  // Depois disso, não reenquadra mais a cada polling — respeita o zoom/pan.
+  const travado = useRef(false);
   useEffect(() => {
-    if (pontos.length === 0) return;
+    const travar = () => {
+      travado.current = true;
+    };
+    const container = map.getContainer();
+    container.addEventListener("wheel", travar, { passive: true });
+    map.on("dragstart", travar);
+    return () => {
+      container.removeEventListener("wheel", travar);
+      map.off("dragstart", travar);
+    };
+  }, [map]);
+  useEffect(() => {
+    if (travado.current || pontos.length === 0) return;
     if (pontos.length === 1) map.setView(pontos[0], 14);
     else map.fitBounds(L.latLngBounds(pontos), { padding: [50, 50] });
   }, [map, pontos]);
